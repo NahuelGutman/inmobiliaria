@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
-import LogoutButton from "@/components/admin/LogoutButton";
 
 async function getStats() {
   const supabase = createSupabaseServerClient();
@@ -40,38 +39,29 @@ export default async function AdminDashboardPage() {
   ];
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-16">
-      <div className="flex items-center justify-between">
-        <h1 className="font-display text-2xl text-ink">
-          Panel de administración
-        </h1>
-        <LogoutButton />
-      </div>
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
+      <h1 className="font-display text-3xl font-extrabold tracking-tight text-ink">
+        Resumen
+      </h1>
 
-      <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
         {cards.map((card) => (
           <div
             key={card.label}
-            className="rounded-sm border border-stone bg-white p-6"
+            className="rounded-sm border border-stone bg-white p-5 sm:p-6"
           >
-            <p className="text-3xl font-display text-forest">{card.value}</p>
+            <p className="font-display text-4xl font-extrabold text-ink">{card.value}</p>
             <p className="mt-1 text-sm text-slate">{card.label}</p>
           </div>
         ))}
       </div>
 
-      <div className="mt-10 flex gap-4">
-        <Link
-          href="/admin/propiedades"
-          className="rounded-sm border border-forest px-5 py-2.5 text-sm text-forest hover:bg-forest hover:text-paper"
-        >
-          Ver propiedades
-        </Link>
-        <Link
-          href="/admin/propiedades/nueva"
-          className="rounded-sm bg-forest px-5 py-2.5 text-sm text-paper hover:bg-forestLight"
-        >
+      <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+        <Link href="/admin/propiedades/nueva" className="btn-primary">
           + Nueva propiedad
+        </Link>
+        <Link href="/admin/propiedades" className="btn-outline">
+          Ver propiedades
         </Link>
       </div>
     </div>

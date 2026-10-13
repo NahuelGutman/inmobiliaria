@@ -7,6 +7,24 @@ html {
 }
 
 body {
-  background-color: #F3EFEA;
-  color: #2C221E;
+  background-color: #F5F5F3;
+  color: #111111;
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex h-11 items-center justify-center rounded-sm bg-ink px-6 text-sm font-semibold text-white transition hover:bg-forestLight disabled:opacity-60;
+  }
+  .btn-outline {
+    @apply inline-flex h-11 items-center justify-center rounded-sm border border-ink px-6 text-sm font-semibold text-ink transition hover:bg-ink hover:text-white;
+  }
+  .input {
+    @apply h-11 w-full rounded-sm border border-[#CFCFCB] bg-white px-3 text-sm text-ink outline-none focus:border-ink;
+  }
+  textarea.input {
+    @apply h-auto py-2.5;
+  }
+  .label {
+    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate;
+  }
 }

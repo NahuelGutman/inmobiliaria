@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import PropertyForm from "@/components/admin/PropertyForm";
@@ -28,8 +29,13 @@ export default async function EditarPropiedadPage({ params }) {
   if (!resultado) notFound();
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-16">
-      <h1 className="font-display text-2xl text-ink">Editar propiedad</h1>
+    <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
+      <Link href="/admin/propiedades" className="text-sm text-slate hover:text-ink">
+        ← Volver a propiedades
+      </Link>
+      <h1 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-ink">
+        Editar propiedad
+      </h1>
       <PropertyForm
         modo="editar"
         propiedad={resultado.propiedad}
