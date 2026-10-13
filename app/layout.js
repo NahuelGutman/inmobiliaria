@@ -1,18 +1,16 @@
-import { Fraunces, Inter } from "next/font/google";
+import { Archivo, Manrope } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { siteConfig } from "@/lib/config";
 
-const fraunces = Fraunces({
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-fraunces",
-  weight: ["500", "600"],
+  variable: "--font-display",
+  weight: ["500", "700", "800"],
 });
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-body",
 });
 
 export const metadata = {
@@ -24,10 +22,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
-      <body className={`${fraunces.variable} ${inter.variable} font-body`}>
-        <Navbar />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+      <body className={`${archivo.variable} ${manrope.variable} font-body`}>
+        {children}
       </body>
     </html>
   );

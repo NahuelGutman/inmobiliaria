@@ -49,10 +49,10 @@ export default function PropertyRowActions({ propiedad }) {
   }
 
   return (
-    <div className="flex gap-3 text-sm">
+    <div className="flex items-center gap-4 text-sm">
       <Link
         href={`/admin/propiedades/${propiedad.id}/editar`}
-        className="text-forest hover:underline"
+        className="font-semibold text-ink hover:underline"
       >
         Editar
       </Link>

@@ -33,44 +33,51 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="mx-auto max-w-sm px-6 py-24">
-      <h1 className="font-display text-2xl text-ink">
-        Ingresar al panel administrativo
-      </h1>
+    <div className="flex min-h-screen items-center justify-center px-4 py-12">
+      <div className="w-full max-w-sm rounded-sm border border-stone bg-white p-6 shadow-sm sm:p-8">
+        <p className="text-xs uppercase tracking-[0.2em] text-brass">Panel</p>
+        <h1 className="mt-2 font-display text-2xl font-extrabold text-ink">
+          Ingresar al panel administrativo
+        </h1>
 
-      <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-        <div>
-          <label className="mb-1 block text-sm text-slate">Email</label>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-sm border border-stone bg-paper px-3 py-2 text-sm text-ink outline-none focus:border-forest"
-          />
-        </div>
+        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+          <div>
+            <label htmlFor="email" className="label">Email</label>
+            <input
+              id="email"
+              type="email"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="input"
+            />
+          </div>
 
-        <div>
-          <label className="mb-1 block text-sm text-slate">Contraseña</label>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-sm border border-stone bg-paper px-3 py-2 text-sm text-ink outline-none focus:border-forest"
-          />
-        </div>
+          <div>
+            <label htmlFor="password" className="label">Contraseña</label>
+            <input
+              id="password"
+              type="password"
+              required
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="input"
+            />
+          </div>
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && (
+            <p role="alert" className="rounded-sm bg-red-50 px-3 py-2 text-sm text-red-700">
+              {error}
+            </p>
+          )}
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-sm bg-forest px-4 py-2 text-sm text-paper transition hover:bg-forestLight disabled:opacity-60"
-        >
-          {loading ? "Ingresando..." : "Ingresar"}
-        </button>
-      </form>
+          <button type="submit" disabled={loading} className="btn-primary w-full">
+            {loading ? "Ingresando..." : "Ingresar"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

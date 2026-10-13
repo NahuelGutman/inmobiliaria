@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { formatearPrecio, caracteristicas } from "@/lib/format";
 
 const ESTADOS_LABEL = {
   disponible: null, // no hace falta mostrar badge para el caso normal
@@ -8,54 +9,56 @@ const ESTADOS_LABEL = {
   alquilada: "Alquilada",
 };
 
-function formatearPrecio(propiedad) {
-  if (propiedad.consultar_precio) return "Consultar precio";
-  if (!propiedad.precio) return "Consultar precio";
-  return `${propiedad.moneda} ${Number(propiedad.precio).toLocaleString(
-    "es-AR"
-  )}`;
-}
-
 export default function PropertyCard({ propiedad, imagenUrl }) {
   const badgeEstado = ESTADOS_LABEL[propiedad.estado];
+  const specs = caracteristicas(propiedad);
 
   return (
     <Link
       href={`/propiedades/${propiedad.slug}`}
-      className="group block overflow-hidden rounded-sm border border-stone bg-white"
+      className="group flex flex-col gap-4"
     >
-      <div className="relative h-48 w-full bg-stone">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-stone">
         {imagenUrl ? (
           <Image
             src={imagenUrl}
             alt={propiedad.titulo}
             fill
-            className="object-cover transition group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover transition duration-500 group-hover:scale-105"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         ) : (
           <div className="flex h-full items-center justify-center text-xs text-slate">
             Sin imagen
           </div>
         )}
+        <span className="absolute bottom-3 left-3 rounded-sm bg-white px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-ink">
+          {propiedad.operacion}
+        </span>
         {badgeEstado && (
-          <span className="absolute left-3 top-3 rounded-sm bg-ink/80 px-2 py-1 text-xs text-paper">
+          <span className="absolute left-3 top-3 rounded-sm bg-ink px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-white">
             {badgeEstado}
           </span>
         )}
       </div>
 
-      <div className="p-4">
-        <p className="text-xs uppercase tracking-wide text-brass">
-          {propiedad.operacion} · {propiedad.tipo}
+      <div>
+        <p className="text-xs uppercase tracking-wider text-brass">
+          {propiedad.tipo} · {propiedad.ciudad}
         </p>
-        <h3 className="mt-1 font-display text-lg text-ink">
+        <h3 className="mt-1 font-display text-xl font-bold text-ink">
           {propiedad.titulo}
         </h3>
-        <p className="mt-1 text-sm text-slate">{propiedad.ciudad}</p>
-        <p className="mt-3 font-body text-sm font-medium text-forest">
+        {specs.length > 0 && (
+          <p className="mt-1 text-sm text-slate">{specs.join(" · ")}</p>
+        )}
+      </div>
+
+      <div className="mt-auto flex items-center justify-between border-t border-stone pt-4">
+        <span className="font-display text-lg font-bold text-ink">
           {formatearPrecio(propiedad)}
-        </p>
+        </span>
+        <span className="text-sm font-semibold text-ink">Ver propiedad →</span>
       </div>
     </Link>
   );

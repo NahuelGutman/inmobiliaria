@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import { slugify } from "@/lib/slugify";
@@ -34,15 +35,15 @@ export default function PropertyForm({ modo, propiedad, imagenesIniciales }) {
     descripcion: propiedad?.descripcion || "",
     operacion: propiedad?.operacion || "venta",
     tipo: propiedad?.tipo || "casa",
-    precio: propiedad?.precio || "",
+    precio: propiedad?.precio ?? "",
     moneda: propiedad?.moneda || "ARS",
     consultar_precio: propiedad?.consultar_precio || false,
     ciudad: propiedad?.ciudad || "",
     direccion: propiedad?.direccion || "",
-    habitaciones: propiedad?.habitaciones || "",
-    banos: propiedad?.banos || "",
-    cocheras: propiedad?.cocheras || "",
-    superficie_total: propiedad?.superficie_total || "",
+    habitaciones: propiedad?.habitaciones ?? "",
+    banos: propiedad?.banos ?? "",
+    cocheras: propiedad?.cocheras ?? "",
+    superficie_total: propiedad?.superficie_total ?? "",
     estado: propiedad?.estado || "disponible",
     destacada: propiedad?.destacada || false,
   });
@@ -230,7 +231,7 @@ export default function PropertyForm({ modo, propiedad, imagenesIniciales }) {
   const imagenesVisibles = imagenesExistentes.filter((img) => !img._eliminar);
 
   return (
-    <form onSubmit={handleSubmit} className="mt-8 space-y-10">
+    <form onSubmit={handleSubmit} className="mt-8 space-y-8">
       {error && (
         <p className="rounded-sm bg-red-50 px-4 py-3 text-sm text-red-700">
           {error}
@@ -238,8 +239,8 @@ export default function PropertyForm({ modo, propiedad, imagenesIniciales }) {
       )}
 
       {/* Información */}
-      <fieldset className="space-y-4">
-        <legend className="font-display text-lg text-ink">Información</legend>
+      <fieldset className="space-y-4 rounded-sm border border-stone bg-white p-5 sm:p-6">
+        <legend className="px-2 font-display text-lg font-bold text-ink">Información</legend>
 
         <Campo label="Título">
           <input
@@ -260,7 +261,7 @@ export default function PropertyForm({ modo, propiedad, imagenesIniciales }) {
           />
         </Campo>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid gap-4 sm:grid-cols-2">
           <Campo label="Tipo de operación">
             <select
               value={form.operacion}
@@ -288,12 +289,13 @@ export default function PropertyForm({ modo, propiedad, imagenesIniciales }) {
       </fieldset>
 
       {/* Precio */}
-      <fieldset className="space-y-4">
-        <legend className="font-display text-lg text-ink">Precio</legend>
+      <fieldset className="space-y-4 rounded-sm border border-stone bg-white p-5 sm:p-6">
+        <legend className="px-2 font-display text-lg font-bold text-ink">Precio</legend>
 
-        <label className="flex items-center gap-2 text-sm text-ink">
+        <label className="flex items-center gap-3 text-sm text-ink">
           <input
             type="checkbox"
+            className="h-4 w-4 accent-black"
             checked={form.consultar_precio}
             onChange={(e) =>
               handleChange("consultar_precio", e.target.checked)
@@ -303,7 +305,7 @@ export default function PropertyForm({ modo, propiedad, imagenesIniciales }) {
         </label>
 
         {!form.consultar_precio && (
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-4 sm:grid-cols-2">
             <Campo label="Precio">
               <input
                 type="number"
@@ -328,8 +330,8 @@ export default function PropertyForm({ modo, propiedad, imagenesIniciales }) {
       </fieldset>
 
       {/* Ubicación */}
-      <fieldset className="space-y-4">
-        <legend className="font-display text-lg text-ink">Ubicación</legend>
+      <fieldset className="space-y-4 rounded-sm border border-stone bg-white p-5 sm:p-6">
+        <legend className="px-2 font-display text-lg font-bold text-ink">Ubicación</legend>
         <Campo label="Ciudad">
           <input
             type="text"
@@ -350,11 +352,11 @@ export default function PropertyForm({ modo, propiedad, imagenesIniciales }) {
       </fieldset>
 
       {/* Características */}
-      <fieldset className="space-y-4">
-        <legend className="font-display text-lg text-ink">
+      <fieldset className="space-y-4 rounded-sm border border-stone bg-white p-5 sm:p-6">
+        <legend className="px-2 font-display text-lg font-bold text-ink">
           Características
         </legend>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           <Campo label="Habitaciones">
             <input
               type="number"
@@ -397,8 +399,8 @@ export default function PropertyForm({ modo, propiedad, imagenesIniciales }) {
       </fieldset>
 
       {/* Estado y destacada */}
-      <fieldset className="space-y-4">
-        <legend className="font-display text-lg text-ink">
+      <fieldset className="space-y-4 rounded-sm border border-stone bg-white p-5 sm:p-6">
+        <legend className="px-2 font-display text-lg font-bold text-ink">
           Estado y visibilidad
         </legend>
         <Campo label="Estado">
@@ -408,15 +410,16 @@ export default function PropertyForm({ modo, propiedad, imagenesIniciales }) {
             className={inputClass}
           >
             {ESTADOS.map((estado) => (
-              <option key={estado} value={estado}>
-                {estado}
+              <option key={estado} value={estado} className="capitalize">
+                {estado.charAt(0).toUpperCase() + estado.slice(1)}
               </option>
             ))}
           </select>
         </Campo>
-        <label className="flex items-center gap-2 text-sm text-ink">
+        <label className="flex items-center gap-3 text-sm text-ink">
           <input
             type="checkbox"
+            className="h-4 w-4 accent-black"
             checked={form.destacada}
             onChange={(e) => handleChange("destacada", e.target.checked)}
           />
@@ -425,19 +428,23 @@ export default function PropertyForm({ modo, propiedad, imagenesIniciales }) {
       </fieldset>
 
       {/* Imágenes */}
-      <fieldset className="space-y-4">
-        <legend className="font-display text-lg text-ink">Imágenes</legend>
+      <fieldset className="space-y-4 rounded-sm border border-stone bg-white p-5 sm:p-6">
+        <legend className="px-2 font-display text-lg font-bold text-ink">Imágenes</legend>
 
-        <input
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={handleSeleccionarImagenes}
-          className="text-sm"
-        />
+        <label className="flex cursor-pointer flex-col items-center justify-center rounded-sm border border-dashed border-[#CFCFCB] bg-paper px-4 py-8 text-center text-sm text-slate transition hover:border-ink hover:text-ink">
+          <span className="font-semibold text-ink">Subir imágenes</span>
+          <span className="mt-1">Tocá para elegir una o varias fotos</span>
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleSeleccionarImagenes}
+            className="sr-only"
+          />
+        </label>
 
         {(imagenesVisibles.length > 0 || imagenesNuevas.length > 0) && (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {imagenesVisibles.map((img) => (
               <ImagenPreview
                 key={`existente-${img.id}`}
@@ -460,30 +467,28 @@ export default function PropertyForm({ modo, propiedad, imagenesIniciales }) {
         )}
       </fieldset>
 
-      <div className="flex gap-4 pt-4">
-        <button
-          type="submit"
-          disabled={loading}
-          className="rounded-sm bg-forest px-6 py-2.5 text-sm text-paper hover:bg-forestLight disabled:opacity-60"
-        >
+      <div className="sticky bottom-0 z-10 -mx-4 flex items-center gap-4 border-t border-stone bg-paper/95 px-4 py-4 backdrop-blur sm:-mx-6 sm:px-6">
+        <button type="submit" disabled={loading} className="btn-primary">
           {loading
             ? "Guardando..."
             : esEdicion
             ? "Guardar cambios"
             : "Crear propiedad"}
         </button>
+        <Link href="/admin/propiedades" className="text-sm text-slate hover:text-ink">
+          Cancelar
+        </Link>
       </div>
     </form>
   );
 }
 
-const inputClass =
-  "w-full rounded-sm border border-stone bg-paper px-3 py-2 text-sm text-ink outline-none focus:border-forest";
+const inputClass = "input";
 
 function Campo({ label, children }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-sm text-slate">{label}</span>
+      <span className="label">{label}</span>
       {children}
     </label>
   );
@@ -498,7 +503,7 @@ function ImagenPreview({ src, esPrincipal, onElegirPrincipal, onEliminar }) {
         <button
           type="button"
           onClick={onElegirPrincipal}
-          className={esPrincipal ? "font-semibold text-forest" : "text-slate"}
+          className={esPrincipal ? "font-semibold text-ink" : "text-slate hover:text-ink"}
         >
           {esPrincipal ? "★ Principal" : "Elegir principal"}
         </button>
